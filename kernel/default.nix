@@ -17,7 +17,7 @@ let
 in
 (
   buildLinux (args // rec {
-    version = "5.6";
+    version = "5.7";
 
     # modDirVersion needs to be x.y.z, will automatically add .0 if needed
     modDirVersion = if (modDirVersionArg == null) then concatStrings (intersperse "." (take 3 (splitString "." "${version}.0"))) else modDirVersionArg;
@@ -25,12 +25,14 @@ in
     # branchVersion needs to be x.y
     extraMeta.branch = concatStrings (intersperse "." (take 2 (splitString "." version)));
 
+    # Manjaro package: https://gitlab.manjaro.org/manjaro-arm/packages/core/linux-pinebookpro
+    # Kernel source: https://gitlab.manjaro.org/tsys/linux-pinebook-pro
     src = fetchFromGitLab {
       domain = "gitlab.manjaro.org";
       owner = "tsys";
       repo = "linux-pinebook-pro";
-      rev = "93293259039d6fc3a725961d42b4f11bfc3f5127";
-      sha256 = "0yrn22j10f3f6hxmbd23ccis35f9s8cbjvzxiyxnsch2zab9349s";
+      rev = "a8f4db8a726e5e4552e61333dcd9ea1ff35f39f9";
+      sha256 = "1vbach0y28c29hjjx4sc9hda4jxyqfhv4wlip3ky93vf4gxm2fij";
     };
 
     postInstall = (optionalString (args ? postInstall) args.postInstall) + ''
